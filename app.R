@@ -135,32 +135,32 @@ server <- function(input, output, session) {
    observeEvent(input$addSpecies, {
       
       if(length(input$speciesInput)>0 && input$speciesInput != "") {
-
+         
          newSpecies <- unlist(strsplit(input$speciesInput,',|\t|\n|;'))
          newSpecies <- as.vector(sapply(newSpecies, function(x) trimws(x, which=c('both') )))
          newSpecies <- validate_names(newSpecies)
-
+         
          validatedSpeciesList <- c(input$validatedList, newSpecies)
-
+         
          updateSelectizeInput(session, 'validatedList', choices = validatedSpeciesList, selected = validatedSpeciesList, server = F)
-
+         
          updateTextInput(session, 'speciesInput', value='')
       }
    })
    
    # addTaxo
    observeEvent(input$addTaxo, {
-         selOrder<- NULL
-         selFamily <- NULL
-         selGenus <- NULL
-         if(input$order != 'ALL'){selOrder <- input$order}
-         if(input$family != 'ALL'){selFamily <- input$family}
-         if(input$genus != 'ALL'){selGenus <- input$genus}
-         validatedSpeciesList <- species_list(Class = input$class,
-                                              Order = selOrder,
-                                              Family = selFamily,
-                                              Genus = selGenus)
-         updateSelectizeInput(session, 'validatedList', choices = validatedSpeciesList, selected = validatedSpeciesList, server = F)
+      selOrder<- NULL
+      selFamily <- NULL
+      selGenus <- NULL
+      if(input$order != 'ALL'){selOrder <- input$order}
+      if(input$family != 'ALL'){selFamily <- input$family}
+      if(input$genus != 'ALL'){selGenus <- input$genus}
+      validatedSpeciesList <- species_list(Class = input$class,
+                                           Order = selOrder,
+                                           Family = selFamily,
+                                           Genus = selGenus)
+      updateSelectizeInput(session, 'validatedList', choices = validatedSpeciesList, selected = validatedSpeciesList, server = F)
    })
    
    # getData
@@ -168,17 +168,20 @@ server <- function(input, output, session) {
       speciesList <- as.character(input$validatedList)
       if(length(speciesList)>0 && speciesList != ""){
          nSpecies <- length(speciesList)
-
+         
          dataset <- species(species_list = speciesList)
- 
+         
          output$tbl1 <- renderDT(dataset,
-                                 extensions = c('FixedHeader', 'Responsive'),
+                                 extensions = c('Scroller', 'Buttons', 'ColReorder','Responsive'),
                                  options = list(autoWidth = T,
-                                                dom = 't',
-                                                keys = T,
-                                                fixedHeader = T,
+                                                dom = 'Bfrtip',
+                                                keys = F,
                                                 scrollX = T,
-                                                scrollY = T,
+                                                deferRender = T,
+                                                scrollY = 600,
+                                                scroller = T,
+                                                colReorder = T,
+                                                buttons = c('copy', 'csv', 'excel'),
                                                 fixedColumns = list(leftColumns = 3)
                                  )
          )
