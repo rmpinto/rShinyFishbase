@@ -142,7 +142,7 @@ server <- function(input, output, session) {
 
          validatedSpeciesList <- c(input$validatedList, newSpecies)
 
-         updateSelectizeInput(session, 'validatedList', choices = validatedSpeciesList, selected = validatedSpeciesList, server = T)
+         updateSelectizeInput(session, 'validatedList', choices = validatedSpeciesList, selected = validatedSpeciesList, server = F)
 
          updateTextInput(session, 'speciesInput', value='')
       }
@@ -160,7 +160,7 @@ server <- function(input, output, session) {
                                               Order = selOrder,
                                               Family = selFamily,
                                               Genus = selGenus)
-         updateSelectizeInput(session, 'validatedList', choices = validatedSpeciesList, selected = validatedSpeciesList, server = T)
+         updateSelectizeInput(session, 'validatedList', choices = validatedSpeciesList, selected = validatedSpeciesList, server = F)
    })
    
    # getData
