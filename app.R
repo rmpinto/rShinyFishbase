@@ -69,6 +69,15 @@ ui <- tagList(
                                         width = '100%')
                   )
                ),
+               hr(),
+               fluidRow(
+                  column(12,
+                         selectizeInput('tablesList',
+                                        label = 'Select tables',
+                                        choices = unique(list_fields()$table), selected = 'species', multiple = T, options = NULL,
+                                        width = '100%')
+                  )
+               ),
                fluidRow(
                   column(12,
                          actionButton('getData',
@@ -79,6 +88,7 @@ ui <- tagList(
                   )
                ),
                hr(),
+               # TODO: create dynamic UI component, one for each selected table
                fluidRow(
                   column(12,DTOutput('tbl1', height='100%'))
                )
