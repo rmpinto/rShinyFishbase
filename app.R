@@ -146,15 +146,20 @@ server <- function(input, output, session) {
       
       if(length(input$speciesInput)>0 && input$speciesInput != "") {
          
-         newSpecies <- unlist(strsplit(input$speciesInput,',|\t|\n|;'))
-         newSpecies <- as.vector(sapply(newSpecies, function(x) trimws(x, which=c('both') )))
-         newSpecies <- validate_names(newSpecies)
-         
-         validatedSpeciesList <- c(input$validatedList, newSpecies)
-         
-         updateSelectizeInput(session, 'validatedList', choices = validatedSpeciesList, selected = validatedSpeciesList, server = F)
-         
-         updateTextInput(session, 'speciesInput', value='')
+         withProgress(message = 'Validating input...', value = 0, {
+            
+               incProgress(0.5)
+               newSpecies <- unlist(strsplit(input$speciesInput,',|\t|\n|;'))
+               newSpecies <- as.vector(sapply(newSpecies, function(x) trimws(x, which=c('both') )))
+               newSpecies <- validate_names(newSpecies)
+               validatedSpeciesList <- c(input$validatedList, newSpecies)
+               
+               incProgress(0.5)
+               updateSelectizeInput(session, 'validatedList', choices = validatedSpeciesList, selected = validatedSpeciesList, server = F)
+               updateTextInput(session, 'speciesInput', value='')
+               
+            
+         })
       }
    })
    
@@ -177,24 +182,32 @@ server <- function(input, output, session) {
    observeEvent(input$getData, {
       speciesList <- as.character(input$validatedList)
       if(length(speciesList)>0 && speciesList != ""){
-         nSpecies <- length(speciesList)
          
-         dataset <- species(species_list = speciesList)
+         withProgress(message = 'Getting data...', value = 0, {
+            
+               incProgress(0.5)
+               nSpecies <- length(speciesList)
+               dataset <- species(species_list = speciesList)
+               
+               incProgress(0.5)
+               output$tbl1 <- renderDT(dataset,
+                                       extensions = c('Scroller', 'Buttons', 'ColReorder','Responsive'),
+                                       options = list(autoWidth = T,
+                                                      dom = 'Bfrtip',
+                                                      keys = F,
+                                                      scrollX = T,
+                                                      deferRender = T,
+                                                      scrollY = 600,
+                                                      scroller = T,
+                                                      colReorder = T,
+                                                      buttons = c('copy', 'csv', 'excel'),
+                                                      fixedColumns = list(leftColumns = 3)
+                                       )
+               )
+               
+            
+         })
          
-         output$tbl1 <- renderDT(dataset,
-                                 extensions = c('Scroller', 'Buttons', 'ColReorder','Responsive'),
-                                 options = list(autoWidth = T,
-                                                dom = 'Bfrtip',
-                                                keys = F,
-                                                scrollX = T,
-                                                deferRender = T,
-                                                scrollY = 600,
-                                                scroller = T,
-                                                colReorder = T,
-                                                buttons = c('copy', 'csv', 'excel'),
-                                                fixedColumns = list(leftColumns = 3)
-                                 )
-         )
       }
    })
    
