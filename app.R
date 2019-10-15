@@ -74,7 +74,7 @@ ui <- tagList(
                   column(12,
                          selectizeInput('tablesList',
                                         label = 'Select tables',
-                                        choices = unique(list_fields()$table), selected = 'species', multiple = T, options = NULL,
+                                        choices = "", multiple = T, options = NULL,
                                         width = '100%')
                   )
                ),
@@ -88,10 +88,8 @@ ui <- tagList(
                   )
                ),
                hr(),
-               # TODO: create dynamic UI component, one for each selected table
-               fluidRow(
-                  column(12,DTOutput('tbl1', height='100%'))
-               )
+               # TODO: fix table width to 100%
+               uiOutput("tables", inline=T)
       ),
       tabPanel("About"),
       hr(),
@@ -105,7 +103,21 @@ server <- function(input, output, session) {
    # Global server variables
    taxoOpt <- fishbase[,c('Genus','Family','Order','Class')]
    
-   # Taxonomy selection
+   # Select available wrappers for fishbase tables
+   pckFun <- lsf.str('package:rfishbase')
+   availTbls <- c()
+   for(i in 1:(length(pckFun)) ) {
+      if('species_list' %in% names(formals(pckFun[[i]]))){
+         availTbls <- c(availTbls, pckFun[i])
+      }
+   }
+   observe({
+      updateSelectInput(session, "tablesList",
+                        choices = availTbls,
+                        selected = 'species'
+      )})
+   
+   # Taxonomy selection - Class
    observeEvent(input$class,
                 {
                    taxoClass <- input$class
@@ -114,6 +126,7 @@ server <- function(input, output, session) {
                                      choices = c('ALL', taxoOrderOpt),
                                      selected = 'ALL')
                 })
+   # Taxonomy selection - Order
    observeEvent(input$order,
                 {
                    taxoOrder <- input$order
@@ -126,6 +139,7 @@ server <- function(input, output, session) {
                                         selected = 'ALL')
                    }
                 })
+   # Taxonomy selection - Family
    observeEvent(input$family,
                 {
                    taxoOrder <- input$order
@@ -148,16 +162,16 @@ server <- function(input, output, session) {
          
          withProgress(message = 'Validating input...', value = 0, {
             
-               incProgress(0.5)
-               newSpecies <- unlist(strsplit(input$speciesInput,',|\t|\n|;'))
-               newSpecies <- as.vector(sapply(newSpecies, function(x) trimws(x, which=c('both') )))
-               newSpecies <- validate_names(newSpecies)
-               validatedSpeciesList <- c(input$validatedList, newSpecies)
-               
-               incProgress(0.5)
-               updateSelectizeInput(session, 'validatedList', choices = validatedSpeciesList, selected = validatedSpeciesList, server = F)
-               updateTextInput(session, 'speciesInput', value='')
-               
+            incProgress(0.5)
+            newSpecies <- unlist(strsplit(input$speciesInput,',|\t|\n|;'))
+            newSpecies <- as.vector(sapply(newSpecies, function(x) trimws(x, which=c('both') )))
+            newSpecies <- validate_names(newSpecies)
+            validatedSpeciesList <- c(input$validatedList, newSpecies)
+            
+            incProgress(0.5)
+            updateSelectizeInput(session, 'validatedList', choices = validatedSpeciesList, selected = validatedSpeciesList, server = F)
+            updateTextInput(session, 'speciesInput', value='')
+            
             
          })
       }
@@ -180,37 +194,68 @@ server <- function(input, output, session) {
    
    # getData
    observeEvent(input$getData, {
-      speciesList <- as.character(input$validatedList)
-      if(length(speciesList)>0 && speciesList != ""){
-         
-         withProgress(message = 'Getting data...', value = 0, {
-            
-               incProgress(0.5)
-               nSpecies <- length(speciesList)
-               dataset <- species(species_list = speciesList)
-               
-               incProgress(0.5)
-               output$tbl1 <- renderDT(dataset,
-                                       extensions = c('Scroller', 'Buttons', 'ColReorder','Responsive'),
-                                       options = list(autoWidth = T,
-                                                      dom = 'Bfrtip',
-                                                      keys = F,
-                                                      scrollX = T,
-                                                      deferRender = T,
-                                                      scrollY = 600,
-                                                      scroller = T,
-                                                      colReorder = T,
-                                                      buttons = c('copy', 'csv', 'excel'),
-                                                      fixedColumns = list(leftColumns = 3)
-                                       )
-               )
-               
+      
+      # FIXME: species table not showing
+      # Create HTML elements dynamically
+      output$tables = renderUI({
+         nTabs = input$tablesList
+         myTables = lapply(paste0('tbl-', nTabs), function(x){
+            fluidRow(column(12,
+                            fluidRow(column(12,
+                                            wellPanel(h4(toupper(unlist(strsplit(x,'-'))[2]))))
+                            ),
+                            fluidRow(column(12,
+                                            DTOutput(outputId = x, height='100%', width='100%'))
+                            ),
+                            hr()
+            )
+            )
             
          })
+         do.call(tabPanel, myTables)
+      })
+      
+      # Get species list
+      speciesList <- as.character(input$validatedList)
+      
+      # Call rfishbase tables and render them
+      if(length(speciesList)>0 && speciesList != ""){
          
+         # Selected tables
+         tblsName <- input$tablesList
+         tblsNumber <- length(input$tablesList)
+         
+         
+         for(i in 1:tblsNumber) {
+            
+            # Limit scope
+            local({
+               
+               # Call rsfishbase table wrapper
+               thisId <- tblsName[i]
+               tmpTbl <- eval(parse(text=paste0(thisId,'(species_list = speciesList)')))
+               
+               # Render DT output linked to HTML elements
+               output[[paste0("tbl-", thisId)]] <-
+                  renderDT(tmpTbl,
+                           extensions = c('Scroller', 'Buttons', 'ColReorder','Responsive'),
+                           options = list(autoWidth = T,
+                                          dom = 'Bfrtip',
+                                          keys = F,
+                                          scrollX = T,
+                                          deferRender = T,
+                                          scrollY = 300,
+                                          scroller = T,
+                                          colReorder = T,
+                                          buttons = c('copy', 'csv', 'excel'),
+                                          fixedColumns = list(leftColumns = 3)
+                           )
+                  )
+               
+            })
+         }
       }
    })
-   
 }
 
 shinyApp(ui = ui, server = server)
