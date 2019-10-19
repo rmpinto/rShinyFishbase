@@ -89,7 +89,7 @@ ui <- tagList(
                ),
                hr(),
                # TODO: fix table width to 100%
-               uiOutput("tables", inline=T)
+               uiOutput("tables", inline=T, width = '100%')
       ),
       tabPanel("About"),
       hr(),
@@ -195,7 +195,6 @@ server <- function(input, output, session) {
    # getData
    observeEvent(input$getData, {
       
-      # FIXME: species table not showing
       # Create HTML elements dynamically
       output$tables = renderUI({
          nTabs = input$tablesList
@@ -210,9 +209,9 @@ server <- function(input, output, session) {
                             hr()
             )
             )
-            
+         
          })
-         do.call(tabPanel, myTables)
+         return(myTables)
       })
       
       # Get species list
