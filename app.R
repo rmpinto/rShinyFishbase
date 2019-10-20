@@ -36,7 +36,6 @@ ui <- tagList(
                      )
                   )
                ),
-               hr(),
                wellPanel(
                   fluidRow(
                      column(2,
@@ -61,32 +60,33 @@ ui <- tagList(
                   )
                ),
                hr(),
-               fluidRow(
-                  column(12,
-                         selectizeInput('validatedList',
-                                        label = 'Species List',
-                                        choices = NULL, selected = NULL, multiple = T, options = NULL,
-                                        width = '100%')
-                  )
-               ),
-               hr(),
-               fluidRow(
-                  column(12,
-                         selectizeInput('tablesList',
-                                        label = 'Select tables',
-                                        choices = "", multiple = T, options = NULL,
-                                        width = '100%')
-                  )
-               ),
-               fluidRow(
-                  column(12,
-                         actionButton('getData',
-                                      'GET DATA',
-                                      icon = icon('data'),
-                                      class = 'btn-warning',
-                                      width = '100%')
-                  )
-               ),
+               wellPanel(
+                  fluidRow(
+                     column(12,
+                            selectizeInput('validatedList',
+                                           label = 'Species list',
+                                           choices = NULL, selected = NULL, multiple = T, options = NULL,
+                                           width = '100%')
+                     )
+                  ),
+                  hr(),
+                  fluidRow(
+                     column(12,
+                            selectizeInput('tablesList',
+                                           label = 'Select tables',
+                                           choices = "", multiple = T, options = NULL,
+                                           width = '100%')
+                     )
+                  ),
+                  fluidRow(
+                     column(12,
+                            actionButton('getData',
+                                         'GET DATA',
+                                         icon = icon('data'),
+                                         class = 'btn-danger',
+                                         width = '100%')
+                     )
+                  )),
                hr(),
                # TODO: fix table width to 100%
                uiOutput("tables", inline=T, width = '100%')
@@ -195,63 +195,85 @@ server <- function(input, output, session) {
    # getData
    observeEvent(input$getData, {
       
-      # Create HTML elements dynamically
-      output$tables = renderUI({
-         nTabs = input$tablesList
-         myTables = lapply(paste0('tbl-', nTabs), function(x){
-            fluidRow(column(12,
-                            fluidRow(column(12,
-                                            wellPanel(h4(toupper(unlist(strsplit(x,'-'))[2]))))
-                            ),
-                            fluidRow(column(12,
-                                            DTOutput(outputId = x, height='100%', width='100%'))
-                            ),
-                            hr()
-            )
-            )
-         
-         })
-         return(myTables)
-      })
-      
-      # Get species list
-      speciesList <- as.character(input$validatedList)
-      
-      # Call rfishbase tables and render them
-      if(length(speciesList)>0 && speciesList != ""){
-         
-         # Selected tables
-         tblsName <- input$tablesList
-         tblsNumber <- length(input$tablesList)
-         
-         
-         for(i in 1:tblsNumber) {
-            
-            # Limit scope
-            local({
+      if(length(input$validatedList) > 0){
+         # Create HTML elements dynamically
+         output$tables = renderUI({
+            nTabs = input$tablesList
+            myTables = lapply(paste0('tbl-', nTabs), function(x){
                
-               # Call rsfishbase table wrapper
-               thisId <- tblsName[i]
-               tmpTbl <- eval(parse(text=paste0(thisId,'(species_list = speciesList)')))
-               
-               # Render DT output linked to HTML elements
-               output[[paste0("tbl-", thisId)]] <-
-                  renderDT(tmpTbl,
-                           extensions = c('Scroller', 'Buttons', 'ColReorder','Responsive'),
-                           options = list(autoWidth = T,
-                                          dom = 'Bfrtip',
-                                          keys = F,
-                                          scrollX = T,
-                                          deferRender = T,
-                                          scrollY = 300,
-                                          scroller = T,
-                                          colReorder = T,
-                                          buttons = c('copy', 'csv', 'excel'),
-                                          fixedColumns = list(leftColumns = 3)
+               # Layout 1 - Tabset
+               #
+               tabPanel(toupper(unlist(strsplit(x,'-'))[2]),
+                        style="margin-top:10px;",
+                        fluidRow(
+                           column(12,
+                                  selectizeInput(paste0('col-', x),
+                                                 label = 'Select fields',
+                                                 choices = "", multiple = T, options = NULL,
+                                                 width = '100%')
                            )
-                  )
+                        ),
+                        fluidRow(column(12,
+                                        DTOutput(outputId = x, height='100%', width='100%'))
+                        )
+               )
+               
+               # Layout 2 - Scroll-down
+               #
+               # fluidRow(column(12,
+               #                 fluidRow(column(12,
+               #                                 wellPanel(h4(toupper(unlist(strsplit(x,'-'))[2]))))
+               #                 ),
+               #                 fluidRow(column(12,
+               #                                 DTOutput(outputId = x, height='100%', width='100%'))
+               #                 ),
+               #                 hr()
+               # )
+               # )
                
             })
+            do.call(tabsetPanel,myTables)
+         })
+         
+         # Get species list
+         speciesList <- as.character(input$validatedList)
+         
+         # Call rfishbase tables and render them
+         if(length(speciesList)>0 && speciesList != ""){
+            
+            # Selected tables
+            tblsName <- input$tablesList
+            tblsNumber <- length(input$tablesList)
+            
+            
+            for(i in 1:tblsNumber) {
+               
+               # Limit scope
+               local({
+                  
+                  # Call rsfishbase table wrapper
+                  thisId <- tblsName[i]
+                  tmpTbl <- eval(parse(text=paste0(thisId,'(species_list = speciesList)')))
+                  
+                  # Render DT output linked to HTML elements
+                  output[[paste0("tbl-", thisId)]] <-
+                     renderDT(tmpTbl,
+                              extensions = c('Scroller', 'Buttons', 'ColReorder','Responsive'),
+                              options = list(autoWidth = T,
+                                             dom = 'Bfrtip',
+                                             keys = F,
+                                             scrollX = T,
+                                             deferRender = T,
+                                             scrollY = 300,
+                                             scroller = T,
+                                             colReorder = T,
+                                             buttons = c('copy', 'csv', 'excel'),
+                                             fixedColumns = list(leftColumns = 3)
+                              )
+                     )
+                  
+               })
+            }
          }
       }
    })

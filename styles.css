@@ -6,3 +6,10 @@
   margin-top: 25px;
 }
 
+.top-container {
+  background-color: #222;
+}
+
+.bottom-container {
+  background-color: white;
+}
