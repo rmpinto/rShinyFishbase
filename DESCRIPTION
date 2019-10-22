@@ -1,5 +1,5 @@
 Imports:
   shiny,
-  shinytest
+  shinytest,
   DT,
   rfishbase
