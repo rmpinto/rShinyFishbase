@@ -9,6 +9,10 @@ ui <- tagList(
       collapsible = T,
       inverse = T,
       tabPanel("Data",
+               fluidRow(
+                  column(12,
+                         HTML("<h4><span class='label label-default'>STEP A</span></h4>"))
+               ),
                wellPanel(
                   fluidRow(
                      column(8,
@@ -60,6 +64,10 @@ ui <- tagList(
                   )
                ),
                hr(),
+               fluidRow(
+                     column(12,
+                            HTML("<h4><span class='label label-default'>STEP B</span></h4>"))
+               ),
                wellPanel(
                   fluidRow(
                      column(12,
