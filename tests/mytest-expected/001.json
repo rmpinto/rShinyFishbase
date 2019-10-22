@@ -1,0 +1,113 @@
+{
+  "input": {
+    "addSpecies": 1,
+    "addTaxo": 0,
+    "checkbox1": true,
+    "checkbox2": false,
+    "checkbox3": false,
+    "class": "Actinopterygii",
+    "family": "ALL",
+    "genus": "ALL",
+    "getData": 1,
+    "order": "ALL",
+    "speciesInput": "",
+    "tablesList": "species",
+    "tablesList-selectized": "",
+    "validatedList": "Merluccius merluccius",
+    "validatedList-selectized": ""
+  },
+  "output": {
+    "tables": {
+      "html": "<div class=\"tabbable\">\n  <ul class=\"nav nav-tabs\" data-tabsetid=\"5052\">\n    <li class=\"active\">\n      <a href=\"#tab-5052-1\" data-toggle=\"tab\" data-value=\"SPECIES\">SPECIES<\/a>\n    <\/li>\n  <\/ul>\n  <div class=\"tab-content\" data-tabsetid=\"5052\">\n    <div class=\"tab-pane active\" data-value=\"SPECIES\" style=\"margin-top:10px;\" id=\"tab-5052-1\">\n      <div class=\"row\">\n        <div class=\"col-sm-12\">\n          <div class=\"form-group shiny-input-container\" style=\"width: 100%;\">\n            <label class=\"control-label\" for=\"col-tbl-species\">Select fields<\/label>\n            <div>\n              <select id=\"col-tbl-species\" class=\"form-control\" multiple=\"multiple\"><option value=\"\"><\/option><\/select>\n              <script type=\"application/json\" data-for=\"col-tbl-species\">{}<\/script>\n            <\/div>\n          <\/div>\n        <\/div>\n      <\/div>\n      <div class=\"row\">\n        <div class=\"col-sm-12\">\n          <div id=\"tbl-species\" style=\"width:100%; height:100%; \" class=\"datatables html-widget html-widget-output\"><\/div>\n        <\/div>\n      <\/div>\n    <\/div>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.11.2",
+          "src": {
+            "href": "shared/selectize"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": "<!--[if lt IE 9]>\n<script src=\"shared/selectize/js/es5-shim.min.js\"><\/script>\n<![endif]-->\n<script src=\"shared/selectize/js/selectize.min.js\"><\/script>",
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "htmlwidgets",
+          "version": "1.3",
+          "src": {
+            "href": "htmlwidgets-1.3"
+          },
+          "meta": null,
+          "script": "htmlwidgets.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "jquery",
+          "version": "1.12.4",
+          "src": {
+            "href": "jquery-1.12.4"
+          },
+          "meta": null,
+          "script": "jquery.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "datatables-css",
+          "version": "0.0.0",
+          "src": {
+            "href": "datatables-css-0.0.0"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "datatables-crosstalk.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "datatables-binding",
+          "version": "0.9",
+          "src": {
+            "href": "datatables-binding-0.9"
+          },
+          "meta": null,
+          "script": "datatables.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": false
+        },
+        {
+          "name": "crosstalk",
+          "version": "1.0.0",
+          "src": {
+            "href": "crosstalk-1.0.0"
+          },
+          "meta": null,
+          "script": "js/crosstalk.min.js",
+          "stylesheet": "css/crosstalk.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    }
+  },
+  "export": {
+
+  }
+}

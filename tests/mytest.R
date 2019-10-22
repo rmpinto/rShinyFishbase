@@ -1,0 +1,10 @@
+app <- ShinyDriver$new("../")
+app$snapshotInit("mytest")
+
+app$setInputs(speciesInput = "Merluccius ")
+app$setInputs(speciesInput = "Merluccius mer")
+app$setInputs(speciesInput = "Merluccius merlucc")
+app$setInputs(speciesInput = "Merluccius merluccius")
+app$setInputs(addSpecies = "click")
+app$setInputs(getData = "click")
+app$snapshot()
