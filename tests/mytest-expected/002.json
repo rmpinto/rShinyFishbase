@@ -1,6 +1,6 @@
 {
   "input": {
-    "addSpecies": 1,
+    "addSpecies": 0,
     "addTaxo": 0,
     "checkbox1": true,
     "checkbox2": false,
@@ -10,10 +10,10 @@
     "genus": "ALL",
     "getData": 0,
     "order": "ALL",
-    "speciesInput": "",
+    "speciesInput": "Merluccius merluccius",
     "tablesList": "species",
     "tablesList-selectized": "",
-    "validatedList": "Merluccius merluccius",
+    "validatedList": null,
     "validatedList-selectized": ""
   },
   "output": {
