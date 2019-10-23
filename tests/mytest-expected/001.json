@@ -10,7 +10,7 @@
     "genus": "ALL",
     "getData": 0,
     "order": "ALL",
-    "speciesInput": "",
+    "speciesInput": "Merluccius merluccius",
     "tablesList": "species",
     "tablesList-selectized": "",
     "validatedList": null,
