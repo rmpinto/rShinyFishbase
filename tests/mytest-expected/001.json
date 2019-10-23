@@ -7,7 +7,7 @@
     "checkbox3": false,
     "class": "Actinopterygii",
     "family": "ALL",
-    "genus": null,
+    "genus": "ALL",
     "getData": 0,
     "order": "ALL",
     "speciesInput": "",
