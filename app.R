@@ -6,6 +6,7 @@ ui <- tagList(
    includeCSS("styles.css"),
    navbarPage(
       "rShinyFishbase",
+      id = "mainPage",
       collapsible = T,
       inverse = T,
       tabPanel("Data",
@@ -240,7 +241,7 @@ server <- function(input, output, session) {
                # )
                
             })
-            do.call(tabsetPanel,myTables)
+            do.call(tabsetPanel,c(myTables, id='tab-tbl'))
          })
          
          # Get species list

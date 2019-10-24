@@ -1,19 +1,20 @@
 {
   "input": {
-    "addSpecies": 0,
+    "addSpecies": 1,
     "addTaxo": 0,
     "checkbox1": true,
     "checkbox2": false,
     "checkbox3": false,
     "class": "Actinopterygii",
     "family": "ALL",
-    "genus": null,
+    "genus": "ALL",
     "getData": 0,
+    "mainPage": "Data",
     "order": "ALL",
     "speciesInput": "",
     "tablesList": "species",
     "tablesList-selectized": "",
-    "validatedList": null,
+    "validatedList": "Merluccius merluccius",
     "validatedList-selectized": ""
   },
   "output": {

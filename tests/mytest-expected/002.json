@@ -1,0 +1,273 @@
+{
+  "input": {
+    "addSpecies": 1,
+    "addTaxo": 0,
+    "checkbox1": true,
+    "checkbox2": false,
+    "checkbox3": false,
+    "class": "Actinopterygii",
+    "col-tbl-species": null,
+    "col-tbl-species-selectized": "",
+    "family": "ALL",
+    "genus": "ALL",
+    "getData": 1,
+    "mainPage": "Data",
+    "order": "ALL",
+    "speciesInput": "",
+    "tab-tbl": "SPECIES",
+    "tablesList": "species",
+    "tablesList-selectized": "",
+    "tbl-species_cell_clicked": {
+
+    },
+    "tbl-species_rows_all": 1,
+    "tbl-species_rows_current": 1,
+    "tbl-species_rows_selected": null,
+    "tbl-species_search": "",
+    "tbl-species_state": null,
+    "validatedList": "Merluccius merluccius",
+    "validatedList-selectized": ""
+  },
+  "output": {
+    "tbl-species": {
+      "x": {
+        "filter": "none",
+        "extensions": [
+          "Scroller",
+          "Buttons",
+          "ColReorder",
+          "Responsive"
+        ],
+        "container": "<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>SpecCode<\/th>\n      <th>Species<\/th>\n      <th>SpeciesRefNo<\/th>\n      <th>Author<\/th>\n      <th>FBname<\/th>\n      <th>PicPreferredName<\/th>\n      <th>PicPreferredNameM<\/th>\n      <th>PicPreferredNameF<\/th>\n      <th>PicPreferredNameJ<\/th>\n      <th>FamCode<\/th>\n      <th>Subfamily<\/th>\n      <th>GenCode<\/th>\n      <th>SubGenCode<\/th>\n      <th>BodyShapeI<\/th>\n      <th>Source<\/th>\n      <th>AuthorRef<\/th>\n      <th>Remark<\/th>\n      <th>TaxIssue<\/th>\n      <th>Fresh<\/th>\n      <th>Brack<\/th>\n      <th>Saltwater<\/th>\n      <th>DemersPelag<\/th>\n      <th>Amphibious<\/th>\n      <th>AmphibiousRef<\/th>\n      <th>AnaCat<\/th>\n      <th>MigratRef<\/th>\n      <th>DepthRangeShallow<\/th>\n      <th>DepthRangeDeep<\/th>\n      <th>DepthRangeRef<\/th>\n      <th>DepthRangeComShallow<\/th>\n      <th>DepthRangeComDeep<\/th>\n      <th>DepthComRef<\/th>\n      <th>LongevityWild<\/th>\n      <th>LongevityWildRef<\/th>\n      <th>LongevityCaptive<\/th>\n      <th>LongevityCapRef<\/th>\n      <th>Vulnerability<\/th>\n      <th>Length<\/th>\n      <th>LTypeMaxM<\/th>\n      <th>LengthFemale<\/th>\n      <th>LTypeMaxF<\/th>\n      <th>MaxLengthRef<\/th>\n      <th>CommonLength<\/th>\n      <th>LTypeComM<\/th>\n      <th>CommonLengthF<\/th>\n      <th>LTypeComF<\/th>\n      <th>CommonLengthRef<\/th>\n      <th>Weight<\/th>\n      <th>WeightFemale<\/th>\n      <th>MaxWeightRef<\/th>\n      <th>Pic<\/th>\n      <th>PictureFemale<\/th>\n      <th>LarvaPic<\/th>\n      <th>EggPic<\/th>\n      <th>ImportanceRef<\/th>\n      <th>Importance<\/th>\n      <th>PriceCateg<\/th>\n      <th>PriceReliability<\/th>\n      <th>Remarks7<\/th>\n      <th>LandingStatistics<\/th>\n      <th>Landings<\/th>\n      <th>MainCatchingMethod<\/th>\n      <th>II<\/th>\n      <th>MSeines<\/th>\n      <th>MGillnets<\/th>\n      <th>MCastnets<\/th>\n      <th>MTraps<\/th>\n      <th>MSpears<\/th>\n      <th>MTrawls<\/th>\n      <th>MDredges<\/th>\n      <th>MLiftnets<\/th>\n      <th>MHooksLines<\/th>\n      <th>MOther<\/th>\n      <th>UsedforAquaculture<\/th>\n      <th>LifeCycle<\/th>\n      <th>AquacultureRef<\/th>\n      <th>UsedasBait<\/th>\n      <th>BaitRef<\/th>\n      <th>Aquarium<\/th>\n      <th>AquariumFishII<\/th>\n      <th>AquariumRef<\/th>\n      <th>GameFish<\/th>\n      <th>GameRef<\/th>\n      <th>Dangerous<\/th>\n      <th>DangerousRef<\/th>\n      <th>Electrogenic<\/th>\n      <th>ElectroRef<\/th>\n      <th>Complete<\/th>\n      <th>GoogleImage<\/th>\n      <th>Comments<\/th>\n      <th>Profile<\/th>\n      <th>PD50<\/th>\n      <th>Emblematic<\/th>\n      <th>Entered<\/th>\n      <th>DateEntered<\/th>\n      <th>Modified<\/th>\n      <th>DateModified<\/th>\n      <th>Expert<\/th>\n      <th>DateChecked<\/th>\n      <th>TS<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>",
+        "options": {
+          "autoWidth": true,
+          "dom": "Bfrtip",
+          "keys": false,
+          "scrollX": true,
+          "deferRender": true,
+          "scrollY": 300,
+          "scroller": true,
+          "colReorder": true,
+          "buttons": [
+            "copy",
+            "csv",
+            "excel"
+          ],
+          "fixedColumns": {
+            "leftColumns": 3
+          },
+          "columnDefs": [
+            {
+              "className": "dt-right",
+              "targets": [
+                1,
+                3,
+                10,
+                12,
+                13,
+                18,
+                19,
+                20,
+                21,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                40,
+                42,
+                43,
+                45,
+                47,
+                48,
+                49,
+                50,
+                55,
+                64,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                76,
+                78,
+                81,
+                82,
+                83,
+                85,
+                87,
+                89,
+                92,
+                93,
+                94,
+                96,
+                98
+              ]
+            },
+            {
+              "orderable": false,
+              "targets": 0
+            }
+          ],
+          "order": [
+
+          ],
+          "orderClasses": false,
+          "responsive": true,
+          "ajax": {
+            "type": "POST",
+            "data": "function(d) {\nd.search.caseInsensitive = true;\nd.search.smart = true;\nd.escape = true;\nvar encodeAmp = function(x) { x.value = x.value.replace(/&/g, \"%26\"); }\nencodeAmp(d.search);\n$.each(d.columns, function(i, v) {encodeAmp(v.search);});\n}"
+          },
+          "serverSide": true,
+          "processing": true
+        },
+        "selection": {
+          "mode": "multiple",
+          "selected": null,
+          "target": "row"
+        }
+      },
+      "evals": [
+        "options.ajax.data"
+      ],
+      "jsHooks": [
+
+      ],
+      "deps": [
+        {
+          "name": "dt-core",
+          "version": "1.10.19",
+          "src": {
+            "href": "dt-core-1.10.19"
+          },
+          "meta": null,
+          "script": "js/jquery.dataTables.min.js",
+          "stylesheet": [
+            "css/jquery.dataTables.min.css",
+            "css/jquery.dataTables.extra.css"
+          ],
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": false
+        },
+        {
+          "name": "dt-ext-scroller",
+          "version": "1.10.19",
+          "src": {
+            "href": "dt-ext-scroller-1.10.19"
+          },
+          "meta": null,
+          "script": "js/dataTables.scroller.min.js",
+          "stylesheet": "css/scroller.dataTables.min.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": false
+        },
+        {
+          "name": "jszip",
+          "version": "1.10.19",
+          "src": {
+            "href": "jszip-1.10.19"
+          },
+          "meta": null,
+          "script": "jszip.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": false
+        },
+        {
+          "name": "dt-ext-buttons",
+          "version": "1.10.19",
+          "src": {
+            "href": "dt-ext-buttons-1.10.19"
+          },
+          "meta": null,
+          "script": [
+            "js/dataTables.buttons.min.js",
+            "js/buttons.flash.min.js",
+            "js/buttons.html5.min.js",
+            "js/buttons.colVis.min.js",
+            "js/buttons.print.min.js"
+          ],
+          "stylesheet": "css/buttons.dataTables.min.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": false
+        },
+        {
+          "name": "dt-ext-colreorder",
+          "version": "1.10.19",
+          "src": {
+            "href": "dt-ext-colreorder-1.10.19"
+          },
+          "meta": null,
+          "script": "js/dataTables.colReorder.min.js",
+          "stylesheet": "css/colReorder.dataTables.min.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": false
+        },
+        {
+          "name": "dt-ext-responsive",
+          "version": "1.10.19",
+          "src": {
+            "href": "dt-ext-responsive-1.10.19"
+          },
+          "meta": null,
+          "script": "js/dataTables.responsive.min.js",
+          "stylesheet": "css/responsive.dataTables.min.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": false
+        },
+        {
+          "name": "jquery",
+          "version": "1.11.3",
+          "src": {
+            "href": "jquery-1.11.3"
+          },
+          "meta": null,
+          "script": "jquery.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "crosstalk",
+          "version": "1.0.0",
+          "src": {
+            "href": "crosstalk-1.0.0"
+          },
+          "meta": null,
+          "script": "js/crosstalk.min.js",
+          "stylesheet": "css/crosstalk.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    }
+  }
+}
