@@ -3,8 +3,4 @@ language: r
 sudo: false
 r: 3.6.1
 
-cache:
-  packages: true
-
-# script:
-#   - R -f run_tests.R
+cache: packages
