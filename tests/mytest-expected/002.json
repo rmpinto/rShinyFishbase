@@ -1,33 +1,4 @@
 {
-  "input": {
-    "addSpecies": 1,
-    "addTaxo": 0,
-    "checkbox1": true,
-    "checkbox2": false,
-    "checkbox3": false,
-    "class": "Actinopterygii",
-    "col-tbl-species": null,
-    "col-tbl-species-selectized": "",
-    "family": "ALL",
-    "genus": "ALL",
-    "getData": 1,
-    "mainPage": "Data",
-    "order": "ALL",
-    "speciesInput": "",
-    "tab-tbl": "SPECIES",
-    "tablesList": "species",
-    "tablesList-selectized": "",
-    "tbl-species_cell_clicked": {
-
-    },
-    "tbl-species_rows_all": 1,
-    "tbl-species_rows_current": 1,
-    "tbl-species_rows_selected": null,
-    "tbl-species_search": "",
-    "tbl-species_state": null,
-    "validatedList": "Merluccius merluccius",
-    "validatedList-selectized": ""
-  },
   "output": {
     "tbl-species": {
       "x": {
