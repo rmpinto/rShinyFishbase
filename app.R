@@ -2,115 +2,10 @@ library(shiny)
 library(DT)
 library(rfishbase)
 
-ui <- tagList(
-   includeCSS("styles.css"),
-   navbarPage(
-      "rShinyFishbase",
-      id = "mainPage",
-      collapsible = T,
-      inverse = T,
-      tabPanel("Data",
-               fluidRow(
-                  column(12,
-                         HTML("<h4><span class='label label-default'>STEP A</span></h4>"))
-               ),
-               wellPanel(
-                  fluidRow(
-                     column(8,
-                            textInput('speciesInput',
-                                      label = 'Add species',
-                                      width = '100%')
-                     ),
-                     column(2,
-                            actionButton('addSpecies',
-                                         label = '',
-                                         icon = icon('plus'),
-                                         class = 'btn-primary',
-                                         width = '100%')
-                     )
-                  ),
-                  fluidRow(
-                     column(2,
-                            checkboxInput("checkbox1", label = "Scientific name", value = T)
-                     ),
-                     column(2,
-                            checkboxInput("checkbox2", label = "Common name", value = F)
-                     ),
-                     column(2,
-                            checkboxInput("checkbox3", label = "Species code", value = F)
-                     )
-                  )
-               ),
-               wellPanel(
-                  fluidRow(
-                     column(2,
-                            selectInput('class', 'Class', choices = unique(fishbase$Class), selectize = F, width='100%')
-                     ),
-                     column(2,
-                            selectInput('order', 'Order', choices = NULL, selectize = F, selected = NULL, width='100%')
-                     ),
-                     column(2,
-                            selectInput('family', 'Family', choices = NULL, selectize = F, selected = NULL, width='100%')
-                     ),
-                     column(2,
-                            selectInput('genus', 'Genus', choices = NULL, selectize = F, selected = NULL, width='100%')
-                     ),
-                     column(2,
-                            actionButton('addTaxo',
-                                         label = '',
-                                         icon = icon('plus'),
-                                         class = 'btn-primary',
-                                         width = '100%')
-                     )
-                  )
-               ),
-               hr(),
-               fluidRow(
-                     column(12,
-                            HTML("<h4><span class='label label-default'>STEP B</span></h4>"))
-               ),
-               wellPanel(
-                  fluidRow(
-                     column(12,
-                            selectizeInput('validatedList',
-                                           label = 'Species list',
-                                           choices = NULL, selected = NULL, multiple = T, options = NULL,
-                                           width = '100%')
-                     )
-                  ),
-                  hr(),
-                  fluidRow(
-                     column(12,
-                            selectizeInput('tablesList',
-                                           label = 'Select tables',
-                                           choices = "", multiple = T, options = NULL,
-                                           width = '100%')
-                     )
-                  ),
-                  fluidRow(
-                     column(12,
-                            actionButton('getData',
-                                         'GET DATA',
-                                         icon = icon('data'),
-                                         class = 'btn-danger',
-                                         width = '100%')
-                     )
-                  )),
-               hr(),
-               # TODO: fix table width to 100%
-               uiOutput("tables", inline=T, width = '100%')
-      ),
-      tabPanel("About"),
-      hr(),
-      footer = div(style='text-align: center;',
-                   HTML('Based on <code>rfishbase 3.0</code>, an rOpenSci package available at <a href="https://github.com/ropensci/rfishbase">https://github.com/ropensci/rfishbase</a>'))
-   )
-)
-
 server <- function(input, output, session) {
    
    # Global server variables
-   taxoOpt <- fishbase[,c('Genus','Family','Order','Class')]
+   taxoOpt <- load_taxa(collect=TRUE)[,c('Genus','Family','Order','Class')]
    
    # Select available wrappers for fishbase tables
    pckFun <- lsf.str('package:rfishbase')
@@ -120,6 +15,9 @@ server <- function(input, output, session) {
          availTbls <- c(availTbls, pckFun[i])
       }
    }
+   updateSelectInput(session, "class",
+                     choices = c('ALL',unique(taxoOpt$Class)),
+                     selected = 'ALL')
    observe({
       updateSelectInput(session, "tablesList",
                         choices = availTbls,
@@ -287,6 +185,115 @@ server <- function(input, output, session) {
       }
    })
 }
+
+ui <- tagList(
+  includeCSS("styles.css"),
+  navbarPage(
+    "rShinyFishbase",
+    id = "mainPage",
+    collapsible = T,
+    inverse = T,
+    tabPanel("Data",
+             fluidRow(
+               column(12,
+                      HTML("<h4><span class='label label-default'>STEP A</span></h4>"))
+             ),
+             wellPanel(
+               fluidRow(
+                 column(8,
+                        textInput('speciesInput',
+                                  label = 'Add species',
+                                  width = '100%')
+                 ),
+                 column(2,
+                        actionButton('addSpecies',
+                                     label = '',
+                                     icon = icon('plus'),
+                                     class = 'btn-primary',
+                                     width = '100%')
+                 )
+               ),
+               fluidRow(
+                 column(2,
+                        checkboxInput("checkbox1", label = "Scientific name", value = T)
+                 ),
+                 column(2,
+                        checkboxInput("checkbox2", label = "Common name", value = F)
+                 ),
+                 column(2,
+                        checkboxInput("checkbox3", label = "Species code", value = F)
+                 )
+               )
+             ),
+             wellPanel(
+               fluidRow(
+                 column(2,
+                        selectInput('class',
+                                    'Class',
+                                    choices = NULL,
+                                    selectize = F,
+                                    width='100%')
+                 ),
+                 column(2,
+                        selectInput('order', 'Order', choices = NULL, selectize = F, selected = NULL, width='100%')
+                 ),
+                 column(2,
+                        selectInput('family', 'Family', choices = NULL, selectize = F, selected = NULL, width='100%')
+                 ),
+                 column(2,
+                        selectInput('genus', 'Genus', choices = NULL, selectize = F, selected = NULL, width='100%')
+                 ),
+                 column(2,
+                        actionButton('addTaxo',
+                                     label = '',
+                                     icon = icon('plus'),
+                                     class = 'btn-primary',
+                                     width = '100%')
+                 )
+               )
+             ),
+             hr(),
+             fluidRow(
+               column(12,
+                      HTML("<h4><span class='label label-default'>STEP B</span></h4>"))
+             ),
+             wellPanel(
+               fluidRow(
+                 column(12,
+                        selectizeInput('validatedList',
+                                       label = 'Species list',
+                                       choices = NULL, selected = NULL, multiple = T, options = NULL,
+                                       width = '100%')
+                 )
+               ),
+               hr(),
+               fluidRow(
+                 column(12,
+                        selectizeInput('tablesList',
+                                       label = 'Select tables',
+                                       choices = "", multiple = T, options = NULL,
+                                       width = '100%')
+                 )
+               ),
+               fluidRow(
+                 column(12,
+                        actionButton('getData',
+                                     'GET DATA',
+                                     icon = icon('data'),
+                                     class = 'btn-danger',
+                                     width = '100%')
+                 )
+               )),
+             hr(),
+             # TODO: fix table width to 100%
+             uiOutput("tables", inline=T, width = '100%')
+    ),
+    tabPanel("About"),
+    hr(),
+    footer = div(style='text-align: center;',
+                 HTML('Based on <code>rfishbase 3.0</code>, an rOpenSci package available at <a href="https://github.com/ropensci/rfishbase">https://github.com/ropensci/rfishbase</a>'))
+  )
+)
 
 shinyApp(ui = ui, server = server)
 
